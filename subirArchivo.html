@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COPISTAT - Subir Documento</title>
+  
+  <!-- Vincula el CSS de Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Vincula fuentes profesionales -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  
+  <!-- Estilos adicionales -->
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh; /* Para que el contenido se centre verticalmente */
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px; /* Establecemos un ancho máximo */
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #007bff;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .file-preview {
+      margin-top: 15px;
+      background-color: #f1f1f1;
+      padding: 12px;
+      border-radius: 5px;
+      word-wrap: break-word;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #333;
+    }
+
+    .btn-custom {
+      width: 100%; /* Los botones ocupan todo el ancho disponible */
+      padding: 12px;
+      margin-top: 20px;
+      border-radius: 50px;
+      font-size: 1.1rem;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background-color: #000000;
+      color: white;
+      text-align: center;
+      padding: 12px;
+      font-size: 0.9rem;
+    }
+
+    .alert-custom {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .alert-success-custom {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .alert-danger-custom {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    /* Ajuste para mejorar la visibilidad en dispositivos más pequeños */
+    @media (max-width: 480px) {
+      .container {
+        padding: 15px;
+      }
+
+      .header h1 {
+        font-size: 1.8rem;
+      }
+
+      .btn-custom {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Contenedor principal -->
+  <div class="container">
+    <!-- Título -->
+    <div class="header">
+      <h1>COPISTAT</h1>
+    </div>
+
+    <!-- Vista previa del archivo -->
+    <div class="file-preview" id="file-preview">
+      <p>No se ha seleccionado ningún archivo</p>
+    </div>
+
+    <!-- Checkbox de autorización (Opcional) -->
+    <div class="form-check mt-3">
+      <input type="checkbox" class="form-check-input" id="authorize-checkbox">
+      <label class="form-check-label" for="authorize-checkbox">
+        Autorizo a poder descargar mi documento.
+      </label>
+    </div>
+
+    <!-- Botones -->
+    <button class="btn btn-primary btn-custom" id="select-file-btn">Seleccionar archivo</button>
+    <button class="btn btn-success btn-custom" id="send-file-btn">Enviar archivo</button>
+
+    <!-- Alerta de mensaje -->
+    <div class="alert alert-danger alert-custom" id="alert-message">
+      Por favor, selecciona un archivo antes de enviarlo.
+    </div>
+    
+    <!-- Alerta de éxito -->
+    <div class="alert alert-success alert-custom" id="success-message">
+      El archivo se ha subido correctamente.
+    </div>
+
+    <!-- Espacio para el párrafo -->
+    <div class="mt-4">
+      <p>Aquí puedes añadir un párrafo explicativo sobre el proceso o términos de uso.</p>
+    </div>
+  </div>
+
+  <!-- Pie de página -->
+  <div class="footer">
+    <p>&copy; 2024 COPISTAT. Todos los derechos reservados.</p>
+  </div>
+
+  <!-- Vincula el JS de Bootstrap y script adicional -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Script para gestionar la carga de archivos y la validación -->
+  <script>
+    document.getElementById('select-file-btn').addEventListener('click', function() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.pdf,.docx,.txt,.jpg,.png'; // Los formatos que aceptamos
+      input.onchange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          document.getElementById('file-preview').innerHTML = `<p><strong>Archivo seleccionado:</strong> ${file.name}</p>`;
+        }
+      };
+      input.click();
+    });
+
+    document.getElementById('send-file-btn').addEventListener('click', function() {
+      const checkbox = document.getElementById('authorize-checkbox');
+      const filePreview = document.getElementById('file-preview').innerText;
+      
+      // Validar si se seleccionó un archivo
+      if (!filePreview.includes('Archivo seleccionado')) {
+        document.getElementById('alert-message').style.display = 'block';
+        document.getElementById('success-message').style.display = 'none'; // Ocultar mensaje de éxito si hay error
+      } else {
+        // Si el archivo está seleccionado
+        document.getElementById('success-message').style.display = 'block';
+        document.getElementById('alert-message').style.display = 'none'; // Ocultar mensaje de error si se sube correctamente
+
+        // Redirigir a la página index.html después de 2 segundos (opcionalmente)
+        setTimeout(function() {
+          window.location.href = 'index.html';  // Redirige a index.html
+        }, 1000);
+      }
+    });
+  </script>
+</body>
+</html>
