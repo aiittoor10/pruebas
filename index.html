@@ -1,250 +1,193 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>COPISTAT - Subir Documento</title>
-  <!-- Vincula fuentes modernas -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COPISTAT - Subir Documento</title>
+    <!-- Vincula el CSS de Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <style>
-    /* Estilo global */
-    body {
-      font-family: 'Roboto', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(135deg, #5f6c77, #344955);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      color: white;
-    }
+    <!-- Vincula fuentes profesionales -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-    .container {
-      background-color: #222;
-      padding: 40px 25px;
-      border-radius: 15px;
-      width: 100%;
-      max-width: 400px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-      text-align: center;
-    }
+    <!-- Estilos adicionales -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #344955;
+            /* Color de fondo */
+            color: #fff;
+            /* Texto blanco */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding-top: 60px;
+            margin: 0;
+        }
 
-    h1 {
-      font-size: 2.2rem;
-      font-weight: 500;
-      color: #4CAF50;
-      margin-bottom: 30px;
-      letter-spacing: 1.5px;
-    }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background-color: #222;
+            /* Fondo oscuro para el contenedor */
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 80px;
+            /* Espacio entre el contenido y el footer */
+        }
 
-    /* Estilo para los inputs */
-    .file-input-container {
-      position: relative;
-      margin-bottom: 30px;
-      text-align: left;
-    }
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            text-align: center;
+            color: #4CAF50;
+            /* Color verde para el título */
+            margin-bottom: 20px;
+        }
 
-    .file-input {
-      display: none;
-    }
+        .file-preview {
+            margin-top: 20px;
+            background-color: #444;
+            /* Fondo gris oscuro */
+            padding: 15px;
+            border-radius: 5px;
+            word-wrap: break-word;
+            text-align: center;
+        }
 
-    .file-label {
-      display: inline-block;
-      background-color: #4CAF50;
-      color: white;
-      font-size: 0.9rem; /* Tamaño de fuente más pequeño */
-      font-weight: 500;
-      padding: 10px 18px; /* Padding reducido */
-      border-radius: 30px;
-      cursor: pointer;
-      transition: 0.3s;
-      box-shadow: 0 8px 10px rgba(0, 0, 0, 0.1);
-    }
+        .btn-custom {
+            width: 48%;
+        }
 
-    .file-label:hover {
-      background-color: #45a049;
-      transform: translateY(-2px);
-      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
-    }
+        .footer {
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 0.9rem;
+        }
 
-    /* Estilo de previsualización de archivo */
-    .file-preview {
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 10px;
-      background-color: #333;
-      color: #bbb;
-      border: 2px dashed #4CAF50;
-      text-align: center;
-      font-size: 1rem;
-    }
+        /* Estilo para las alertas */
+        .alert-custom {
+            display: none;
+            margin-top: 20px;
+        }
 
-    /* Estilo para el checkbox */
-    .checkbox-container {
-      margin: 20px 0;
-      text-align: left;
-    }
+        .alert-success-custom {
+            background-color: #4CAF50;
+            /* Verde para el éxito */
+            color: white;
+        }
 
-    .checkbox-container label {
-      font-size: 1rem;
-      color: #bbb;
-      cursor: pointer;
-    }
+        .alert-danger-custom {
+            background-color: #f44336;
+            /* Rojo para los errores */
+            color: white;
+        }
 
-    .checkbox-container input {
-      margin-right: 8px;
-    }
-
-    /* Contenedor para los botones */
-    .buttons-container {
-      display: flex;
-      justify-content: space-between; /* Espacio entre los botones */
-      gap: 10px; /* Distancia entre los botones */
-      width: 100%;
-      margin-bottom: 15px;
-    }
-
-    /* Estilo de los botones */
-    .btn {
-      font-size: 0.9rem; /* Tamaño de fuente más pequeño */
-      padding: 10px 16px; /* Padding reducido */
-      font-weight: 500;
-      border-radius: 50px;
-      border: none;
-      cursor: pointer;
-      transition: 0.3s;
-      width: 48%; /* Botones más pequeños, ajustados al 48% del contenedor */
-    }
-
-    .btn-primary {
-      background-color: #4CAF50;
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background-color: #45a049;
-      transform: translateY(-2px);
-    }
-
-    .btn-secondary {
-      background-color: #FF9800;
-      color: white;
-    }
-
-    .btn-secondary:hover {
-      background-color: #fb8c00;
-      transform: translateY(-2px);
-    }
-
-    /* Estilo para los mensajes */
-    .alert {
-      padding: 12px;
-      margin-top: 15px;
-      border-radius: 8px;
-      font-size: 1rem;
-      display: none;
-      text-align: center;
-    }
-
-    .alert-success {
-      background-color: #4CAF50;
-      color: white;
-    }
-
-    .alert-error {
-      background-color: #f44336;
-      color: white;
-    }
-
-    /* Footer */
-    .footer {
-      position: absolute;
-      bottom: 10px;
-      width: 100%;
-      color: #bbb;
-      font-size: 0.85rem;
-      text-align: center;
-    }
-
-  </style>
+        b {
+            color: red;
+        }
+    </style>
 </head>
+
 <body>
 
-  <div class="container">
-    <h1>COPISTAT</h1>
+    <!-- Título de la app -->
+    <div class="container">
+        <div class="header">
+            <h1>COPISTAT</h1>
+        </div>
 
-    <!-- Previsualización del archivo -->
-    <div class="file-preview" id="filePreview">
-      <p>No se ha seleccionado ningún archivo</p>
+        <!-- Vista previa del archivo -->
+        <div class="file-preview" id="file-preview">
+            <p>No se ha seleccionado ningún archivo</p>
+        </div>
+
+        <!-- Checkbox de autorización (Opcional) -->
+        <div class="form-check mt-3">
+            <input type="checkbox" class="form-check-input" id="authorize-checkbox">
+            <label class="form-check-label" for="authorize-checkbox">
+                Autorizo la descarga de mi documento.
+            </label>
+        </div>
+
+        <!-- Botones -->
+        <div class="mt-4 d-flex justify-content-between">
+            <button class="btn btn-warning btn-custom" id="select-file-btn">Seleccionar archivo</button>
+            <!-- Botón naranja -->
+            <button class="btn btn-primary btn-custom" id="send-file-btn">Enviar archivo</button>
+        </div>
+
+        <!-- Alerta de mensaje -->
+        <div class="alert alert-danger alert-custom" id="alert-message">
+            Por favor, selecciona un archivo antes de enviarlo.
+        </div>
+
+        <!-- Alerta de éxito -->
+        <div class="alert alert-success alert-custom" id="success-message">
+            El archivo se ha subido correctamente.
+        </div>
+
+        <!-- Espacio para el párrafo -->
+        <div class="mt-5" style="text-align: justify;">
+            <p>Los archivos enviados serán eliminados automáticamente para garantizar su privacidad y seguridad. Al
+                seleccionar la casilla <b>"Autorizo la descarga de mi documento"</b>, usted otorga su consentimiento expreso
+                para que el documento sea descargado en el dispositivo del personal del establecimiento.</p>
+        </div>
+
     </div>
 
-    <!-- Casilla de autorización -->
-    <div class="checkbox-container">
-      <input type="checkbox" id="authorizationCheckbox">
-      <label for="authorizationCheckbox">Autorizo la descarga de mi documento.</label>
+    <!-- Pie de página -->
+    <div class="footer">
+        <p>&copy; 2024 COPISTAT. Todos los derechos reservados.</p>
     </div>
 
-    <!-- Contenedor de los botones -->
-    <div class="buttons-container">
-      <button class="btn btn-primary" onclick="submitFile()">Enviar Archivo</button>
-      <button class="btn btn-secondary" onclick="resetForm()">Limpiar</button>
-    </div>
+    <!-- Vincula el JS de Bootstrap y script adicional -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Mensajes de alerta -->
-    <div id="alertMessage" class="alert"></div>
+    <!-- Script para gestionar la carga de archivos y la validación -->
+    <script>
+        document.getElementById('select-file-btn').addEventListener('click', function () {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.pdf,.docx,.txt,.jpg,.png'; // Los formatos que aceptamos
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    document.getElementById('file-preview').innerHTML = `<p><strong>Archivo seleccionado:</strong> ${file.name}</p>`;
+                }
+            };
+            input.click();
+        });
 
-  </div>
+        document.getElementById('send-file-btn').addEventListener('click', function () {
+            const checkbox = document.getElementById('authorize-checkbox');
+            const filePreview = document.getElementById('file-preview').innerText;
 
-  <!-- Footer -->
-  <div class="footer">
-    <p>&copy; 2024 COPISTAT. Todos los derechos reservados.</p>
-  </div>
+            // Validar si se seleccionó un archivo
+            if (!filePreview.includes('Archivo seleccionado')) {
+                document.getElementById('alert-message').style.display = 'block';
+                document.getElementById('success-message').style.display = 'none'; // Ocultar mensaje de éxito si hay error
+            } else {
+                // Si el archivo está seleccionado
+                document.getElementById('success-message').style.display = 'block';
+                document.getElementById('alert-message').style.display = 'none'; // Ocultar mensaje de error si se sube correctamente
 
-  <script>
-    // Mostrar nombre de archivo seleccionado
-    function showPreview() {
-      const fileInput = document.getElementById('fileInput');
-      const previewContainer = document.getElementById('filePreview');
-      const file = fileInput.files[0];
-
-      if (file) {
-        previewContainer.innerHTML = `<p>Archivo seleccionado: ${file.name}</p>`;
-      } else {
-        previewContainer.innerHTML = `<p>No se ha seleccionado ningún archivo</p>`;
-      }
-    }
-
-    // Función para enviar el archivo
-    function submitFile() {
-      const fileInput = document.getElementById('fileInput').files[0];
-      const authorizationCheckbox = document.getElementById('authorizationCheckbox').checked;
-      const alertMessage = document.getElementById('alertMessage');
-
-      if (!fileInput) {
-        alertMessage.innerHTML = `<div class="alert alert-error">Por favor, selecciona un archivo antes de enviar.</div>`;
-        document.querySelector('.alert').style.display = 'block';
-      } else if (!authorizationCheckbox) {
-        alertMessage.innerHTML = `<div class="alert alert-error">Debes autorizar la descarga del documento.</div>`;
-        document.querySelector('.alert').style.display = 'block';
-      } else {
-        alertMessage.innerHTML = `<div class="alert alert-success">¡Archivo enviado correctamente!</div>`;
-        document.querySelector('.alert').style.display = 'block';
-        setTimeout(function() {
-          window.location.href = "index.html"; // Redirige a la página principal después de 2 segundos
-        }, 2000);
-      }
-    }
-
-    // Función para limpiar el formulario
-    function resetForm() {
-      document.getElementById('fileInput').value = '';
-      document.getElementById('filePreview').innerHTML = '<p>No se ha seleccionado ningún archivo</p>';
-      document.getElementById('authorizationCheckbox').checked = false;
-      document.getElementById('alertMessage').style.display = 'none';
-    }
-  </script>
-
+                // Redirigir a la página index.html después de 2 segundos (opcionalmente)
+                setTimeout(function () {
+                    window.location.href = 'index.html';  // Redirige a index.html
+                }, 2000);
+            }
+        });
+    </script>
 </body>
+
 </html>
